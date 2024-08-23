@@ -1,0 +1,49 @@
+<div class="content-wrapper">
+  <div class="flex justify-between items-center">
+    <h2 class="text-2xl font-bold">Pojazdy</h2>
+  </div>
+  <div>
+    <a style="margin-left: 73rem;" [routerLink]="['/pojazd/dodaj']" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mt-3">Dodaj</a>
+  </div>
+    <div class="overflow-x-auto mt-3">
+      <table class="content-table min-w-full bg-white text-center border border-gray-300">
+        <thead class="bg-teal-600 text-white">
+          <tr>
+            <th class="px-4 py-2 border border-gray-300">ID</th>
+            <th class="px-4 py-2 border border-gray-300">Typ</th>
+            <th class="px-4 py-2 border border-gray-300">Marka</th>
+            <th class="px-4 py-2 border border-gray-300">Model</th>
+            <th class="px-4 py-2 border border-gray-300">Rodzaj Skrzyni</th>
+            <th class="px-4 py-2 border border-gray-300">Rodzaj Paliwa</th>
+            <th class="px-4 py-2 border border-gray-300">Rok Produkcji</th>
+            <th class="px-4 py-2 border border-gray-300">Dostępny</th>
+            <th class="px-4 py-2 border border-gray-300">Najem na kilometry</th>
+            <th class="px-4 py-2 border border-gray-300">Najem na dni</th>
+            <th class="px-4 py-2 border border-gray-300">Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pojazd of pojazdy" class="border-t border-gray-300">
+            <td class="px-4 py-2 border border-gray-300">{{ pojazd.id }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ pojazd.typ }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ pojazd.marka }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ pojazd.model }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ pojazd.rodzajSkrzyni }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ pojazd.rodzajPaliwa }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ pojazd.rokProdukcji }}</td>
+            <td class="px-4 py-2 border border-gray-300">
+              <span *ngIf="pojazd.dostepny" class="text-green-600 font-semibold">Tak</span>
+              <span *ngIf="!pojazd.dostepny" class="text-red-600 font-semibold">Nie</span>
+            </td>
+            <td class="px-4 py-2 border border-gray-300">{{ pojazd.cenaK | currency:'PLN' }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ pojazd.cenaD | currency:'PLN' }}</td>
+            <td class="px-4 py-2 border border-gray-300">
+              <a [routerLink]="['/pojazd', pojazd.id, 'edytuj']" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Edytuj</a>
+              <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 ml-1" (click)="deletePojazd(pojazd.id)">Usuń</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
