@@ -2,4 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
 html { background-color: #f3f3f3; }
+.kolorek { color: #009879;}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

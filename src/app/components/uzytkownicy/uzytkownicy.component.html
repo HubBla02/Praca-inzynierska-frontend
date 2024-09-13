@@ -2,7 +2,7 @@
   <h2 class="text-center text-2xl font-bold mb-6">Użytkownicy</h2>
 
   <div class="overflow-x-auto">
-    <table class="content-table min-w-full bg-white text-center border border-gray-300">
+    <table class="content-table min-w-full bg-white text-center border border-gray-300 mx-5">
       <thead class="bg-teal-600 text-white">
         <tr>
           <th class="px-4 py-2 border border-gray-300">ID</th>
@@ -10,7 +10,7 @@
           <th class="px-4 py-2 border border-gray-300">Imię</th>
           <th class="px-4 py-2 border border-gray-300">Nazwisko</th>
           <th class="px-4 py-2 border border-gray-300">Data Urodzenia</th>
-          <th class="px-4 py-2 border border-gray-300">Rola ID</th>
+          <th class="px-4 py-2 border border-gray-300">Admin</th>
           <th class="px-4 py-2 border border-gray-300">Weryfikacja trzeźwości</th>
           <th class="px-4 py-2 border border-gray-300">Blokada</th>
           <th class="px-4 py-2 border border-gray-300">Akcje</th>
@@ -24,8 +24,7 @@
           <td class="px-4 py-2 border border-gray-300">{{ user.nazwisko }}</td>
           <td class="px-4 py-2 border border-gray-300">{{ user.dataUrodzenia | date:'dd-MM-yyyy'}}</td>
           <td class="px-4 py-2 border border-gray-300">
-            <span *ngIf="user.rolaId === 1">Użytkownik</span>
-            <span *ngIf="user.rolaId === 2" class="font-bold">Admin</span>
+            <input type="checkbox" [checked]="user.rolaId === 2" (change)="toggleAdmin(user.id)" />
           </td>
           <td class="px-4 py-2 border border-gray-300">
             <span *ngIf="user.czyTrzezwy" class="text-green-600 font-semibold">Tak</span>
@@ -36,13 +35,23 @@
             <span *ngIf="!user.czyZablokowany" class="text-green-600 font-semibold">Nie</span>
           </td>
           <td class="px-4 py-2 border border-gray-300">
-            <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700" (click)="deleteUser(user.id)">Usuń</button>
+            <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700" (click)="openDeleteModal(user.id)">Usuń</button>
             <button *ngIf="user.czyZablokowany" class="ml-1 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" (click)="toggleBlock(user.id)">Odblokuj</button>
             <button *ngIf="!user.czyZablokowany" class="ml-1 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700" (click)="toggleBlock(user.id)">Zablokuj</button>
-            
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+
+  <div *ngIf="showDeleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded shadow-lg">
+      <h3 class="text-lg font-bold mb-4">Czy na pewno chcesz usunąć użytkownika? Tej operacji nie można cofnąć.</h3>
+      <div class="flex justify-end">
+        <button class="bg-gray-400 text-white px-4 py-2 rounded mr-2" (click)="closeDeleteModal()">Anuluj</button>
+        <button class="bg-red-600 text-white px-4 py-2 rounded" (click)="confirmDelete()">Usuń</button>
+      </div>
+    </div>
+  </div>
+
 </div>

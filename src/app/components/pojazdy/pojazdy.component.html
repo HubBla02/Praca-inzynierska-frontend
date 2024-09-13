@@ -1,12 +1,10 @@
 <div class="content-wrapper">
-  <div class="flex justify-between items-center">
+  <div class="flex justify-center">
     <h2 class="text-2xl font-bold">Pojazdy</h2>
   </div>
-  <div>
-    <a style="margin-left: 73rem;" [routerLink]="['/pojazd/dodaj']" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mt-3">Dodaj</a>
-  </div>
+  <a [routerLink]="['/pojazd/dodaj']" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mt-3 ml-5">Dodaj</a>
     <div class="overflow-x-auto mt-3">
-      <table class="content-table min-w-full bg-white text-center border border-gray-300">
+      <table class="content-table min-w-full bg-white text-center border border-gray-300 mx-5">
         <thead class="bg-teal-600 text-white">
           <tr>
             <th class="px-4 py-2 border border-gray-300">ID</th>
@@ -17,9 +15,10 @@
             <th class="px-4 py-2 border border-gray-300">Rodzaj Paliwa</th>
             <th class="px-4 py-2 border border-gray-300">Rok Produkcji</th>
             <th class="px-4 py-2 border border-gray-300">Dostępny</th>
-            <th class="px-4 py-2 border border-gray-300">Najem na kilometry</th>
+            <th class="px-4 py-2 border border-gray-300">Najem na godziny</th>
             <th class="px-4 py-2 border border-gray-300">Najem na dni</th>
             <th class="px-4 py-2 border border-gray-300">Akcje</th>
+            <th class="px-4 py-2 border border-gray-300">Zdjęcie</th>
           </tr>
         </thead>
         <tbody>
@@ -39,11 +38,46 @@
             <td class="px-4 py-2 border border-gray-300">{{ pojazd.cenaD | currency:'PLN' }}</td>
             <td class="px-4 py-2 border border-gray-300">
               <a [routerLink]="['/pojazd', pojazd.id, 'edytuj']" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Edytuj</a>
-              <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 ml-1" (click)="deletePojazd(pojazd.id)">Usuń</button>
+              <button class="bg-red-600 text-white px-4 py-1.5 rounded hover:bg-red-700 ml-1" (click)="otworzModalUsuwaniaPojazdu(pojazd.id)">Usuń</button>
+            </td>
+            <td class="px-4 py-2 border border-gray-300">
+              <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 ml-1" (click)="podgladZdjecia(pojazd.sciezkaDoZdjecia)">Podgląd</button>
+              <a [routerLink]="['/dodaj-zdjecie', pojazd.id]" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 ml-1">Dodaj</a>
+              <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 ml-1" (click)="otworzModalUsuwaniaZdjecia(pojazd.id)">Usuń</button>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div *ngIf="modalUsuwaniaPojazdu" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+      <div class="bg-white p-6 rounded shadow-lg">
+        <h3 class="text-lg font-bold mb-4">Czy na pewno chcesz usunąć pojazd? Tej operacji nie można cofnąć.</h3>
+        <div class="flex justify-end">
+          <button class="bg-gray-400 text-white px-4 py-2 rounded mr-2" (click)="zamknijModalUsuwaniaPojazdu()">Anuluj</button>
+          <button class="bg-red-600 text-white px-4 py-2 rounded" (click)="usunPojazd()">Usuń</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="modalUsuwaniaZdjecia" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+      <div class="bg-white p-6 rounded shadow-lg">
+        <h3 class="text-lg font-bold mb-4">Czy na pewno chcesz usunąć zdjęcie? Tej operacji nie można cofnąć.</h3>
+        <div class="flex justify-end">
+          <button class="bg-gray-400 text-white px-4 py-2 rounded mr-2" (click)="zamknijModalUsuwaniaZdjecia()">Anuluj</button>
+          <button class="bg-red-600 text-white px-4 py-2 rounded" (click)="usunZdjecie()">Usuń</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="pokazModalZdjecie" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+      <div class="bg-white p-6 rounded shadow-lg">
+        <h3 class="text-lg font-bold mb-4">Zdjęcie:</h3>
+        <img [src]="aktualnaSciezkaZdjecia" alt="Pojazd nie ma przypisanego zdjęcia." class="max-w-full max-h-96">
+        <div class="flex justify-end mt-4">
+          <button class="bg-gray-400 text-white px-4 py-2 rounded" (click)="zamknijModalZdjecia()">Zamknij</button>
+        </div>
+      </div>
     </div>
   </div>
   

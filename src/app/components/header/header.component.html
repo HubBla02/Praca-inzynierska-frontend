@@ -1,0 +1,39 @@
+
+    <nav *ngIf="rola === 'Admin'" class="relative flex flex-wrap items-center justify-between px-2 py-3 mb-3">
+    <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
+      <div class="w-full relative flex items-center justify-between lg:w-auto px-4 lg:static lg:flex lg:justify-start">
+        <a href="przegladaj" class="text-2xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white">
+          Carrently The Best - panel administratora
+        </a>
+        <div class="flex items-center space-x-4"> 
+          <a href="/uzytkownik/lista" class="text-white text-lg ml-3 font-semibold">Użytkownicy</a>
+          <a href="/pojazd/lista" class="text-white text-lg ml-1 font-semibold">Pojazdy</a>
+          <a href="/wypozyczenie/lista" class="text-white text-lg ml-1 font-semibold">Wypożyczenia</a>
+          <a href="/moje" class="text-white text-lg ml-1 font-semibold">Moje wypożyczenia</a>
+        </div>
+      </div>
+      
+
+    </div>
+
+    <button class="text-white text-lg ml-1 font-semibold mr-10" (click)="logout()"> Wyloguj </button>
+    
+  </nav>
+  
+  <nav *ngIf="rola === 'User'" class="relative flex flex-wrap items-center justify-between px-2 py-3 mb-3">
+    <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
+      <div class="w-full relative flex items-center justify-between lg:w-auto px-4 lg:static lg:flex lg:justify-start">
+        <a href="przegladaj" class="text-2xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white">
+          Carrently The Best
+        </a>
+        <div class="flex items-center space-x-4"> 
+          <a href="/moje" class="text-white text-lg ml-1 font-semibold">Moje wypożyczenia</a>
+        </div>
+      </div>
+      
+
+    </div>
+
+    <button class="text-white text-lg ml-1 font-semibold mr-10" (click)="logout()"> Wyloguj </button>
+
+  </nav>

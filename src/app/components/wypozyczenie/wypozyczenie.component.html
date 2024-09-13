@@ -1,0 +1,84 @@
+<div class="w-full max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+    <!-- Zdjęcie na górze -->
+    <div class="relative">
+      <img [src]="photos + wybranyPojazd.sciezkaDoZdjecia" alt="Zdjęcie pojazdu" class="w-full h-64 object-cover" />
+    </div>
+  
+    <!-- Szczegóły pojazdu -->
+    <div class="p-6">
+      <h2 class="text-2xl font-bold mb-4">{{ wybranyPojazd.typ + ' ' + wybranyPojazd.marka + ' ' + wybranyPojazd.model }}</h2>
+      <div class="space-y-2">
+        <p class="text-lg"><span class="font-semibold">Cena za godzinę:</span> {{ wybranyPojazd.cenaK }} zł</p>
+        <p class="text-lg"><span class="font-semibold">Cena za dzień:</span> {{ wybranyPojazd.cenaD }} zł</p>
+        <p class="text-lg"><span class="font-semibold">Kaucja:</span> {{ kaucjaK }}</p>
+        <p class="text-lg"><span class="font-semibold">Kaucja (wynajem powyżej 1 dnia):</span> {{ kaucjaD }}</p>
+      </div>
+    </div>
+
+     <mat-radio-group [(ngModel)]="najemTyp" (change)="onNajemTypChange()">
+      <mat-radio-button value="krotkoterminowy">Najem krótkoterminowy</mat-radio-button>
+      <mat-radio-button value="dlugoterminowy">Najem długoterminowy</mat-radio-button>
+    </mat-radio-group>
+
+      <div *ngIf="najemTyp === 'krotkoterminowy'" class="center-date">
+        <mat-form-field>
+          <mat-label>Wybierz datę</mat-label>
+          <input matInput [matDatepicker]="timePickerStart" placeholder="Wybierz godzinę" [(ngModel)]="wybranaData">
+          <mat-datepicker-toggle matIconSuffix [for]="timePickerStart"></mat-datepicker-toggle>
+          <mat-datepicker #timePickerStart type="time"></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="najemTyp === 'krotkoterminowy'" class="center-time">
+        <mat-form-field>
+          <mat-label>Godzina rozpoczęcia</mat-label>
+          <input matInput [ngxMatTimepicker]="pickerStart" [(ngModel)]="godzinaRozpoczecia" placeholder="Wybierz godzinę rozpoczęcia" [format]="24">
+          <ngx-mat-timepicker-toggle [for]="pickerStart" matSuffix></ngx-mat-timepicker-toggle>
+          <ngx-mat-timepicker #pickerStart></ngx-mat-timepicker>
+        </mat-form-field>
+
+        <!-- Godzina zakończenia -->
+        <mat-form-field class="ml-2">
+          <mat-label>Godzina zakończenia</mat-label>
+          <input matInput [ngxMatTimepicker]="pickerEnd" [(ngModel)]="godzinaZakonczenia" placeholder="Wybierz godzinę zakończenia" [format]="24">
+          <ngx-mat-timepicker-toggle [for]="pickerEnd" matSuffix></ngx-mat-timepicker-toggle>
+          <ngx-mat-timepicker #pickerEnd></ngx-mat-timepicker>
+        </mat-form-field>
+        </div>
+
+
+    <div class="center-date" *ngIf="najemTyp === 'dlugoterminowy'">
+      <mat-form-field>
+        <mat-label>Wprowadż daty</mat-label>
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+          <input matStartDate formControlName="start" placeholder="Początek">
+          <input matEndDate formControlName="end" placeholder="Koniec">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+
+    <div class="center-form-field">
+      <button (click)="obliczCene()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 mb-10 mt-1"> Oblicz cenę</button>
+    </div>
+
+    <div class="p-6" *ngIf="najemTyp === 'dlugoterminowy' && pokazCene === true">
+      <p class="text-lg"><span class="font-semibold">Długość:</span> {{ dlugoscDlugoterminowego }} dni</p>
+      <p class="text-lg"><span class="font-semibold">Cena:</span> {{ cena }} zł</p>
+    </div>
+
+    <div class="p-6" *ngIf="najemTyp === 'krotkoterminowy' && pokazCene === true">
+      <p class="text-lg"><span class="font-semibold">Długość:</span> {{ dlugoscKrotkoterminowego }} godzin</p>
+      <p class="text-lg"><span class="font-semibold">Cena:</span> {{ cena }} zł</p>
+    </div>
+
+    <div class="buttons">
+
+        <button (click)="wypozycz()" class="bg-blue-600 text-white rounded hover:bg-blue-700 px-4 py-2">Wypożycz</button>
+        <button (click)="cofnij()" class="bg-red-600 text-white rounded hover:bg-red-700 px-4 py-2 ml-1">Zamknij</button>
+    </div>
+</div>
+
+  
+  

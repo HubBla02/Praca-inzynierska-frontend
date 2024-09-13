@@ -1,0 +1,25 @@
+<div class="content-wrapper">
+    <h2 class="text-center text-2xl font-bold mb-6">Moje wypożyczenia</h2>
+  
+    <div class="overflow-x-auto">
+      <table class="content-table min-w-full bg-white text-center border border-gray-300 mx-5">
+        <thead class="bg-teal-600 text-white">
+          <tr>
+            <th class="px-4 py-2 border border-gray-300">Pojazd</th>
+            <th class="px-4 py-2 border border-gray-300">Cena</th>
+            <th class="px-4 py-2 border border-gray-300">Data i/lub godzina rozpoczęcia</th>
+            <th class="px-4 py-2 border border-gray-300">Data i/lub godzina zakończenia</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let w of wypozyczenia" class="border-t border-gray-300">
+            <td class="px-4 py-2 border border-gray-300">{{ w.pojazd.marka + " " +  w.pojazd.model }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ w.cena }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ w.dataRozpoczecia | date:'dd-MM-yyyy  hh:mm'}}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ w.dataZakonczenia | date:'dd-MM-yyyy  hh:mm'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+</div>

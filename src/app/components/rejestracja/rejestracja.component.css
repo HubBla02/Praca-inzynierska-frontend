@@ -1,0 +1,11 @@
+::ng-deep .mat-form-field-type-mat-date-range-input .mat-hint {
+    color: white !important;
+  }
+  
+  ::ng-deep .mat-form-field-flex {
+    background-color: white !important;
+  }
+  
+  ::ng-deep .mat-date-range-input-inner {
+    color: black !important;
+  }

@@ -9,5 +9,5 @@ export interface Pojazd {
     dostepny: boolean;
     cenaK: number;
     cenaD: number;
-    zdjecie: File;
+    sciezkaDoZdjecia: string;
 }

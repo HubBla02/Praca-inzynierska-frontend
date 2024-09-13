@@ -8,5 +8,4 @@ export interface PojazdDTO {
     dostepny: boolean;
     cenaK: number;
     cenaD: number;
-    zdjecie: File;
 }

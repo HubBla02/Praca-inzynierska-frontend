@@ -1,9 +1,9 @@
 import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { Pojazd } from '../../dto/Pojazd';
-import { PojazdDTO } from '../../dto/PojazdDTO';
 import { PojazdService } from '../../services/pojazd/pojazd.service';
 import { RouterModule } from '@angular/router';
+import { environment } from '../../environment/environment';
 
 @Component({
   selector: 'app-pojazdy',
@@ -14,7 +14,14 @@ import { RouterModule } from '@angular/router';
 })
 export class PojazdyComponent {
   pojazdy: Pojazd[] = [];
-  dodawanie: boolean = false;
+
+  public pokazModalZdjecie: boolean = false;
+  public aktualnaSciezkaZdjecia: string = '';
+
+  modalUsuwaniaPojazdu: boolean = false; 
+  idPojazduDoUsuniecia: number | null = null;
+
+  modalUsuwaniaZdjecia: boolean = false;
 
   constructor(private pojazdService: PojazdService) {}
 
@@ -26,11 +33,23 @@ export class PojazdyComponent {
     this.pojazdService.getPojazdy().subscribe(
       (data: Pojazd[]) => {
         this.pojazdy = data;
+        console.log(this.pojazdy[0]);
       },
       (error: any) => {
         console.error('Błąd podczas ładowania pojazdow.', error);
       }
     );
+  }
+
+  podgladZdjecia(sciezkaDoZdjecia: string) {
+    this.aktualnaSciezkaZdjecia = `${environment.photos}${sciezkaDoZdjecia}`;
+    if (this.aktualnaSciezkaZdjecia){
+      this.pokazModalZdjecie = true;
+    }
+  }
+
+  zamknijModalZdjecia() {
+    this.pokazModalZdjecie = false;
   }
 
   deletePojazd(pojazdId: number): void {
@@ -43,6 +62,53 @@ export class PojazdyComponent {
         console.error('Błąd podczas usuwania pojazdu', error);
       }
     );
+  }
+
+  deletePhoto(pojazdId: number){
+    this.pojazdService.usunZdjecie(pojazdId).subscribe(
+      () => {
+        this.loadPojazdy();
+        this.pojazdService.emitPojazdChanged();
+      },
+      (error) => {
+        console.error('Błąd podczas usuwania zdjecia', error);
+      }
+    );
+  }
+
+  otworzModalUsuwaniaPojazdu(pojazdId: number){
+    this.modalUsuwaniaPojazdu = true;
+    this.idPojazduDoUsuniecia = pojazdId;
+  }
+
+  zamknijModalUsuwaniaPojazdu(){
+    if(this.modalUsuwaniaPojazdu !== null){
+      this.idPojazduDoUsuniecia = null;
+    }
+    this.modalUsuwaniaPojazdu = false;
+  }
+
+  otworzModalUsuwaniaZdjecia(pojazdId: number){
+    this.modalUsuwaniaZdjecia = true;
+    this.idPojazduDoUsuniecia = pojazdId;
+  }
+
+  zamknijModalUsuwaniaZdjecia(){
+    if(this.modalUsuwaniaZdjecia !== null){
+      this.idPojazduDoUsuniecia = null;
+    }
+    this.modalUsuwaniaZdjecia = false;
+  }
+
+
+  usunPojazd(){
+    this.modalUsuwaniaPojazdu = false;
+    this.deletePojazd(this.idPojazduDoUsuniecia!);
+  }
+
+  usunZdjecie(){
+    this.modalUsuwaniaZdjecia = false;
+    this.deletePhoto(this.idPojazduDoUsuniecia!);
   }
 
 }

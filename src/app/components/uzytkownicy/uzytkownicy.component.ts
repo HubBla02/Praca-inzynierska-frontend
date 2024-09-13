@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Uzytkownik } from '../../dto/Uzytkownik';
-import { UzytkownikService } from '../../services/uzytkownik/uzytkownik.service';
 import { DatePipe, NgFor, NgIf } from '@angular/common';
+import { UzytkownikService } from '../../services/uzytkownik/uzytkownik.service';
 
 @Component({
   selector: 'app-uzytkownicy',
@@ -13,6 +13,10 @@ import { DatePipe, NgFor, NgIf } from '@angular/common';
 export class UzytkownicyComponent {
   users: Uzytkownik[] = [];
   userblock: Uzytkownik | null = null;
+  userAdmin: Uzytkownik | null = null;
+
+  showDeleteModal: boolean = false; 
+  userIdToDelete: number | null = null;
 
   constructor(private userService: UzytkownikService) {}
 
@@ -48,6 +52,34 @@ export class UzytkownicyComponent {
     )
   }
 
+  toggleAdmin(userId: number){
+    this.userService.getUserById(userId).subscribe(
+      (user) => {
+        this.userAdmin = user;
+        if (this.userAdmin !== null){
+          if (this.userAdmin.rolaId === 1){
+            this.userAdmin.rolaId = 2
+          }
+          else {
+            this.userAdmin.rolaId = 1;
+          }
+          this.userService.updateUser(userId, this.userAdmin).subscribe(
+            () => {
+              this.loadUsers();
+              this.userService.emitUserChanged();
+            },
+            (error) => {
+              console.error("Error while completing edition.")
+            }
+          )
+        }
+      },
+      (error) => {
+        console.error("Error editing user.")
+      }
+    )
+  }
+
   toggleBlock(userId: number): void {
     this.userService.getUserById(userId).subscribe(
       (user) => {
@@ -76,5 +108,25 @@ export class UzytkownicyComponent {
     )
 
   }
+
+  openDeleteModal(userId: number) {
+    this.userIdToDelete = userId;
+    this.showDeleteModal = true;
+  
+  
+  }
+
+  closeDeleteModal() {
+    if (this.userIdToDelete !== null){
+      this.userIdToDelete = null;
+    }
+    this.showDeleteModal = false; 
+  }
+
+  confirmDelete(){
+    this.showDeleteModal = false; 
+    this.deleteUser(this.userIdToDelete!);
+  }
+
 }
 

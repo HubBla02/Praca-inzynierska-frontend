@@ -1,0 +1,36 @@
+<div class="oferta-container">
+    <div class="pojazd-kafelek" *ngFor="let pojazd of pojazdy">
+        <img [src]="photos + pojazd.sciezkaDoZdjecia" alt="Zdjęcie pojazdu" class="pojazd-img" />
+        <h3 class="text-2xl font-semibold mt-2">{{ pojazd.typ + ' ' + pojazd.marka + ' ' + pojazd.model }}</h3>
+        <button (click)="pokazSzczegoly(pojazd)" class="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700 ml-1 mt-2">Zobacz szczegóły</button>
+    </div>
+  </div>
+  
+
+  <div *ngIf="pokazModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-content">
+        <!-- Zdjęcie po lewej -->
+        <div class="modal-left">
+          <img [src]="photos + wybranyPojazd?.sciezkaDoZdjecia" alt="Zdjęcie pojazdu" class="modal-img" />
+        </div>
+        
+        <!-- Dane pojazdu po prawej -->
+        <div class="modal-right">
+          <h2 class="modal-title text-2xl font-bold">{{ wybranyPojazd?.marka + ' ' + wybranyPojazd?.model }}</h2>
+          <p class="text-lg"><strong>Rok produkcji:</strong> {{ wybranyPojazd?.rokProdukcji }}</p>
+          <p class="text-lg"><strong>Rodzaj skrzyni:</strong> {{ wybranyPojazd?.rodzajSkrzyni }}</p>
+          <p class="text-lg"><strong>Rodzaj paliwa:</strong> {{ wybranyPojazd?.rodzajPaliwa }}</p>
+          <p class="text-lg"><strong>Cena za godzinę:</strong> {{ wybranyPojazd?.cenaK }} zł</p>
+          <p class="text-lg"><strong>Cena za dzień:</strong> {{ wybranyPojazd?.cenaD }} zł</p>
+          <p class="text-lg"><strong>UWAGA!</strong> Pamiętaj, że konieczna będzie zapłata kaucji. Jej wartość zobaczysz w następnym oknie.</p>
+        </div>
+      </div>
+      
+      <!-- Nowy kontener na przyciski pod spodem -->
+      <div class="modal-buttons">
+        <button (click)="wypozyczPojazd()" class="bg-blue-600 text-white rounded hover:bg-blue-700">Wypożycz</button>
+        <button (click)="zamknijModal()" class="bg-red-600 text-white rounded hover:bg-red-700">Zamknij</button>
+      </div>
+    </div>
+  </div>

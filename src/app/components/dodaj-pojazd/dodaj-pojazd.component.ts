@@ -2,11 +2,13 @@ import { Component, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PojazdService } from '../../services/pojazd/pojazd.service';
 import { PojazdDTO } from '../../dto/PojazdDTO';
+import { Router, RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-dodaj-pojazd',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterModule],
   templateUrl: './dodaj-pojazd.component.html',
   styleUrl: './dodaj-pojazd.component.css'
 })
@@ -20,30 +22,30 @@ export class DodajPojazdComponent {
     rokProdukcji: 2024,
     dostepny: true,
     cenaK: 0,
-    cenaD: 0,
-    zdjecie: new File([], "")
+    cenaD: 0
   };
 
-  bledy: any = [];
+  zdjecie: File | null = null;
 
-  constructor(private pojazdService: PojazdService) {}
+  constructor(private pojazdService: PojazdService, private router: Router) {}
 
   dodaj(){
     this.pojazdService.createPojazd(this.nowyPojazd).subscribe(
-      () => {
-        this.pojazdService.emitPojazdChanged();
+      (res: any) => {
+        console.log("Dodano pojazd");
+        this.router.navigate(['/pojazd/lista']);
       },
       (error) => {
         console.log(error, "errors")
-        this.bledy = error.error.errors;
       }
     );
   }
 
+
   onFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      this.nowyPojazd.zdjecie = input.files[0];
+      this.zdjecie = input.files[0];
     }
   }
 }

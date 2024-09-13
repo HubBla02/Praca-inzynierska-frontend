@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { PojazdDTO } from '../../dto/PojazdDTO';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PojazdService } from '../../services/pojazd/pojazd.service';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
@@ -8,7 +8,7 @@ import { NgIf } from '@angular/common';
 @Component({
   selector: 'app-edytuj-pojazd',
   standalone: true,
-  imports: [FormsModule, NgIf],
+  imports: [FormsModule, NgIf, RouterModule],
   templateUrl: './edytuj-pojazd.component.html',
   styleUrl: './edytuj-pojazd.component.css'
 })
@@ -16,7 +16,7 @@ export class EdytujPojazdComponent {
   id!: any;
   zmiany!: PojazdDTO;
 
-  constructor(private route: ActivatedRoute, private pojazdService: PojazdService) {}
+  constructor(private route: ActivatedRoute, private pojazdService: PojazdService, private router: Router) {}
 
   ngOnInit(){
     this.id = this.route.snapshot.paramMap.get('id');
@@ -28,13 +28,9 @@ export class EdytujPojazdComponent {
   }
 
   edytuj(){
-    this.pojazdService.updatePojazd(this.id, this.zmiany).subscribe()
-  }
+    this.pojazdService.updatePojazd(this.id, this.zmiany).subscribe(
+      ()=>{this.router.navigate(['/pojazd/lista']);}
+    )
 
-  onFileChange(event: Event) {
-    // const input = event.target as HTMLInputElement;
-    // if (input.files && input.files.length > 0) {
-    //   this.zmiany.zdjecie = input.files[0];
-    // }
   }
 }
