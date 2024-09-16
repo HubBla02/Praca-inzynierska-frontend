@@ -13,6 +13,10 @@ import { DodajZdjecieComponent } from './components/dodaj-zdjecie/dodaj-zdjecie.
 import { WypozyczenieComponent } from './components/wypozyczenie/wypozyczenie.component';
 import { ListaWypozyczenComponent } from './components/lista-wypozyczen/lista-wypozyczen.component';
 import { MojeWypozyczeniaComponent } from './components/moje-wypozyczenia/moje-wypozyczenia.component';
+import { ListaZgloszenComponent } from './components/lista-zgloszen/lista-zgloszen.component';
+import { MojeZgloszeniaComponent } from './components/moje-zgloszenia/moje-zgloszenia.component';
+import { UtworzZgloszenieComponent } from './components/utworz-zgloszenie/utworz-zgloszenie.component';
+import { AlkomatComponent } from './components/alkomat/alkomat.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'strona-glowna', pathMatch: 'full' }, 
@@ -21,6 +25,10 @@ export const routes: Routes = [
     { path: 'rejestracja', component: RejestracjaComponent},
     { path: 'przegladaj', component: OfertaComponent},
     { path: 'moje', component: MojeWypozyczeniaComponent},
+    { path: "zgloszenia/moje", component: MojeZgloszeniaComponent},
+    { path: "zgloszenia/moje/utworz", component: UtworzZgloszenieComponent},
+    { path: "alkomat", component: AlkomatComponent},
+    { path: 'zgloszenia/lista', component: ListaZgloszenComponent, canActivate: [RoleGuard], data: { expectedRole: 'Admin'}},
     { path: 'uzytkownik/lista', component: UzytkownicyComponent, canActivate: [RoleGuard], data: { expectedRole: 'Admin' }}, 
     { path: 'pojazd/lista', component: PojazdyComponent, canActivate: [RoleGuard], data: { expectedRole: 'Admin' } },
     { path: 'wypozyczenie/lista', component: ListaWypozyczenComponent, canActivate: [RoleGuard], data: { expectedRole: 'Admin' } },

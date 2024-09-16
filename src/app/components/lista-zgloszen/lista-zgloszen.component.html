@@ -1,0 +1,74 @@
+<div class="content-wrapper">
+    <h2 class="text-center text-2xl font-bold mb-6">Zgłoszenia</h2>
+  
+    <div class="overflow-x-auto">
+      <table class="content-table min-w-full bg-white text-center border border-gray-300 mx-5">
+        <thead class="bg-teal-600 text-white">
+          <tr>
+            <th class="px-4 py-2 border border-gray-300">ID</th>
+            <th class="px-4 py-2 border border-gray-300">Email użytkownika</th>
+            <th class="px-4 py-2 border border-gray-300">Tytuł</th>
+            <th class="px-4 py-2 border border-gray-300">Treść</th>
+            <th class="px-4 py-2 border border-gray-300">Odpowiedź</th>
+            <th class="px-4 py-2 border border-gray-300">Status</th>
+            <th class="px-4 py-2 border border-gray-300">Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let z of zgloszenia" class="border-t border-gray-300">
+            <td class="px-4 py-2 border border-gray-300">{{ z.id }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ z.email }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ z.tytul }}</td>
+            <td class="px-4 py-2 border border-gray-300">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" (click)="openModal(z.tresc)">Wyświetl</button>
+              </td>
+              <td *ngIf="z.odpowiedz !== null" class="px-4 py-2 border border-gray-300">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" (click)="openModal(z.odpowiedz)">Wyświetl</button>
+              </td>
+              <td *ngIf="z.odpowiedz === null" class="px-4 py-2 border border-gray-300">Brak</td>
+            <td class="px-4 py-2 border border-gray-300">
+                <span *ngIf="z.czyZamkniete" class="text-red-600 font-semibold">Zamknięte</span>
+                <span *ngIf="!z.czyZamkniete" class="text-green-600 font-semibold">Otwarte</span>
+              </td>
+            <td class="px-4 py-2 border border-gray-300">
+              <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 mr-2" (click)="openOdpowiedzModal(z.id)">Odpowiedz</button>
+              <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mr-2" (click)="zmienStatus(z)">Zmień status</button>
+              <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700" (click)="openDeleteModal(z.id)">Usuń</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  <div *ngIf="showModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded shadow-lg">
+      <h3 class="text-lg font-bold mb-4">Zawartość</h3>
+      <p class="mb-4">{{ modalContent }}</p>
+      <div class="flex justify-end">
+        <button class="bg-gray-400 text-white px-4 py-2 rounded" (click)="closeModal()">Zamknij</button>
+      </div>
+    </div>
+  </div>
+  
+    <div *ngIf="showDeleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+      <div class="bg-white p-6 rounded shadow-lg">
+        <h3 class="text-lg font-bold mb-4">Czy na pewno chcesz usunąć zgłoszenie Tej operacji nie można cofnąć.</h3>
+        <div class="flex justify-end">
+          <button class="bg-gray-400 text-white px-4 py-2 rounded mr-2" (click)="closeDeleteModal()">Anuluj</button>
+          <button class="bg-red-600 text-white px-4 py-2 rounded" (click)="confirmDelete()">Usuń</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="showOdpowiedzModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+        <div class="bg-white p-6 rounded shadow-lg" [ngStyle]="{'width': '60%', 'height': '30%'}">
+        <h3 class="text-lg font-bold mb-4">Dodaj odpowiedź</h3>
+        <textarea [(ngModel)]="odpowiedz" rows="5" class="border border-gray-300 w-full p-2 rounded"></textarea>
+        <div class="flex justify-end mt-4">
+            <button class="bg-gray-400 text-white px-4 py-2 rounded mr-2" (click)="closeOdpowiedzModal()">Anuluj</button>
+            <button class="bg-green-600 text-white px-4 py-2 rounded" (click)="submitOdpowiedz(odpowiedzWtrakcie!)">Zapisz</button>
+        </div>
+        </div>
+    </div>
+  
+  </div>

@@ -14,19 +14,43 @@ export class UzytkownikService {
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/uzytkownik/lista`);
+    const token = localStorage.getItem('JWT_TOKEN');
+    const headers = {
+      'Authorization': `Bearer ${token}`
+    };
+    return this.http.get(`${this.apiUrl}/uzytkownik/lista`, { headers });
   }
 
   getUserById(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/uzytkownik/${id}`);
+    const token = localStorage.getItem('JWT_TOKEN');
+    const headers = {
+      'Authorization': `Bearer ${token}`
+    };
+    return this.http.get(`${this.apiUrl}/uzytkownik/${id}`, { headers });
+  }
+
+  getUserByEmail(email: string): Observable<any> {
+    const token = localStorage.getItem('JWT_TOKEN');
+    const headers = {
+      'Authorization': `Bearer ${token}`
+    };
+    return this.http.get(`${this.apiUrl}/uzytkownik/userByEmail/${email}`, { headers });
   }
 
   updateUser(id: number, data: Uzytkownik): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/uzytkownik/${id}`, data);
+    const token = localStorage.getItem('JWT_TOKEN');
+    const headers = {
+      'Authorization': `Bearer ${token}`
+    };
+    return this.http.patch(`${this.apiUrl}/uzytkownik/${id}`, data, { headers });
   }
 
   deleteUser(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/uzytkownik/${id}`);
+    const token = localStorage.getItem('JWT_TOKEN');
+    const headers = {
+      'Authorization': `Bearer ${token}`
+    };
+    return this.http.delete(`${this.apiUrl}/uzytkownik/${id}`, { headers });
   }
   
 

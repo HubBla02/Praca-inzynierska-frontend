@@ -15,6 +15,9 @@ import { NgFor, NgIf } from '@angular/common';
 import { AuthService } from '../../services/logowanie/auth.service';
 import { WypozyczenieService } from '../../services/wypozyczenie/wypozyczenie.service';
 import {NgxMatTimepickerModule} from 'ngx-mat-timepicker';
+import { UzytkownicyComponent } from '../uzytkownicy/uzytkownicy.component';
+import { UzytkownikService } from '../../services/uzytkownik/uzytkownik.service';
+import { Uzytkownik } from '../../dto/Uzytkownik';
 
 @Component({
   selector: 'app-wypozyczenie',
@@ -29,6 +32,9 @@ import {NgxMatTimepickerModule} from 'ngx-mat-timepicker';
 
 
 export class WypozyczenieComponent implements OnInit {
+  user: Uzytkownik | null = null;
+  email: string = '';
+  pokazModal: boolean = false;
   wybranyPojazd!: Pojazd;
   id: number = 0;
   photos: string = '';
@@ -53,6 +59,7 @@ export class WypozyczenieComponent implements OnInit {
     private route: ActivatedRoute,
     private pojazdService: PojazdService,
     private router: Router,
+    private userService: UzytkownikService,
     private authService: AuthService,
     private wypozyczenieService: WypozyczenieService
   ) {}
@@ -70,6 +77,36 @@ export class WypozyczenieComponent implements OnInit {
       }
     });
     this.photos = environment.photos
+    this.email = this.authService.getUserEmail()!;
+    this.getUser(this.email);
+  }
+
+  getUser(email: string){
+    this.userService.getUserByEmail(email).subscribe({
+      next: (data) => {
+        this.user = data;
+        this.trzezwosc();
+      },
+      error: (err) => {
+        console.error('Błąd podczas ładowania usera:', err);
+      }
+    });
+  }
+
+  trzezwosc(){
+    if (!this.user!.czyTrzezwy){
+      this.pokazModal = true;
+    }
+  }
+
+  sprawdzTeraz(){
+    this.pokazModal = false;
+    this.router.navigate(["/alkomat"]);
+  }
+
+  zamknijModal(){
+    this.pokazModal = false;
+    this.router.navigate(["/przegladaj"]);
   }
 
   onNajemTypChange() {
@@ -114,6 +151,7 @@ export class WypozyczenieComponent implements OnInit {
   }
 
   wypozycz(){
+    this.trzezwosc();
     if (this.najemTyp === "dlugoterminowy"){
       this.obliczCene();
       this.wypozyczenie = {

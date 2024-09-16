@@ -1,0 +1,47 @@
+<div class="content-wrapper">
+    <h2 class="text-center text-2xl font-bold mb-6">Moje zgłoszenia</h2>
+  
+    <div class="overflow-x-auto">
+      <table class="content-table min-w-full bg-white text-center border border-gray-300 mx-5">
+        <thead class="bg-teal-600 text-white">
+          <tr>
+            <th class="px-4 py-2 border border-gray-300">Tytuł</th>
+            <th class="px-4 py-2 border border-gray-300">Treść</th>
+            <th class="px-4 py-2 border border-gray-300">Odpowiedz</th>
+            <th class="px-4 py-2 border border-gray-300">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let z of zgloszenia" class="border-t border-gray-300">
+            <td class="px-4 py-2 border border-gray-300">{{ z.tytul }}</td>
+            <td class="px-4 py-2 border border-gray-300">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" (click)="openModal(z.tresc)">Wyświetl</button>
+              </td>
+              <td *ngIf="z.odpowiedz !== null" class="px-4 py-2 border border-gray-300">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" (click)="openModal(z.odpowiedz)">Wyświetl</button>
+              </td>
+              <td *ngIf="z.odpowiedz === null" class="px-4 py-2 border border-gray-300">Brak</td>
+            <td class="px-4 py-2 border border-gray-300">
+                <span *ngIf="z.czyZamkniete" class="text-red-600 font-semibold">Zamknięte</span>
+                <span *ngIf="!z.czyZamkniete" class="text-green-600 font-semibold">Otwarte</span>
+              </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div> 
+
+<div *ngIf="showModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded shadow-lg">
+      <h3 class="text-lg font-bold mb-4">Zawartość</h3>
+      <p class="mb-4">{{ modalContent }}</p>
+      <div class="flex justify-end">
+        <button class="bg-gray-400 text-white px-4 py-2 rounded" (click)="closeModal()">Zamknij</button>
+      </div>
+    </div>
+</div>
+
+<div class="justify-center w-full text-center mt-4">
+  <span class="text-2xl font-semibold block">Masz problem?</span>
+  <button (click)="doTworzenia()" class="bg-green-600 text-white text-lg py-3 px-6 rounded hover:bg-green-700 mt-2">Utwórz zgłoszenie!</button>
+</div>

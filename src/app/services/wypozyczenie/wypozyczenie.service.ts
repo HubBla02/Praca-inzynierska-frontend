@@ -15,11 +15,19 @@ export class WypozyczenieService {
   constructor(private http: HttpClient) { }
 
   getWypozyczenia(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/wypozyczenie/lista`);
+    const token = localStorage.getItem('JWT_TOKEN');
+    const headers = {
+      'Authorization': `Bearer ${token}`
+    };
+    return this.http.get(`${this.apiUrl}/wypozyczenie/lista`, { headers });
   }
 
   deleteWypozyczenie(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/wypozyczenie/${id}`);
+    const token = localStorage.getItem('JWT_TOKEN');
+    const headers = {
+      'Authorization': `Bearer ${token}`
+    };
+    return this.http.delete(`${this.apiUrl}/wypozyczenie/${id}`, { headers });
   }
 
   getMojeWypozyczenia(): Observable<any> {
@@ -32,7 +40,11 @@ export class WypozyczenieService {
   }
 
   utworzWypozyczenie(wypozyczenie: WypozyczenieDTO): Observable<any>{
-    return this.http.post<WypozyczenieDTO>(`${this.apiUrl}/wypozyczenie`, wypozyczenie)
+    const token = localStorage.getItem('JWT_TOKEN');
+    const headers = {
+      'Authorization': `Bearer ${token}`
+    };
+    return this.http.post<WypozyczenieDTO>(`${this.apiUrl}/wypozyczenie`, wypozyczenie, { headers })
   }
   
   emitWypozyczenieChanged(){

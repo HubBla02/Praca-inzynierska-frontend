@@ -106,7 +106,6 @@ export class UzytkownicyComponent {
         console.error("Error editing user.")
       }
     )
-
   }
 
   openDeleteModal(userId: number) {

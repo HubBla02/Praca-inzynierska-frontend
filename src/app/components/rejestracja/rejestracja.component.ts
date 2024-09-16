@@ -74,7 +74,6 @@ export class RejestracjaComponent {
   
 
   onSubmit(){
-    console.log(this.form.value.dUrodzenia);
     if (!this.form.invalid){
       this.user.email = this.form.value.email;
       this.user.haslo = this.form.value.haslo;

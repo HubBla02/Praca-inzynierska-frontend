@@ -1,0 +1,21 @@
+<div class="font-bold w-full flex justify-center mt-10" style="font-size: 40px">
+    <h1>Utwórz zgłoszenie</h1>
+</div>
+<div class="flex items-center justify-center mt-10">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg" style="margin-bottom: 10rem;">
+        <form [formGroup]="form" (ngSubmit)="wyslij()">
+            <div class="mb-4">
+                <label for="tytul" class="block text-gray-700 text-lg font-bold mb-2">Tytuł:</label>
+                <input id="tytul" formControlName="tytul" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Czego dotyczy problem?">
+            </div>
+            <div class="mb-6">
+                <label for="tresc" class="block text-gray-700 text-lg font-bold mb-2">Opis:</label>
+                <textarea id="tresc" formControlName="tresc" rows="15" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Opisz, co się wydarzyło..."></textarea>
+            </div>
+            <div class="flex items-center justify-between">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Wyślij</button>
+                <button type="button" (click)="wroc()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Wstecz</button>
+            </div>
+        </form>
+    </div>
+</div>
