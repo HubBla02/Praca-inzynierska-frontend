@@ -106,6 +106,7 @@ export class AlkomatComponent implements OnInit{
               }
           )}
       )
+      this.zablokuj(this.email);
     }
 
     blokada(){
@@ -122,7 +123,6 @@ export class AlkomatComponent implements OnInit{
         });
       } else {
         this.nietrzezwy(this.email);
-        this.zablokuj(this.email);
         this.pokazModal = true;
       }
     }
