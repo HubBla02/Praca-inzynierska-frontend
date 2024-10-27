@@ -17,10 +17,14 @@ import { ListaZgloszenComponent } from './components/lista-zgloszen/lista-zglosz
 import { MojeZgloszeniaComponent } from './components/moje-zgloszenia/moje-zgloszenia.component';
 import { UtworzZgloszenieComponent } from './components/utworz-zgloszenie/utworz-zgloszenie.component';
 import { AlkomatComponent } from './components/alkomat/alkomat.component';
+import { OpinieComponent } from './components/opinie/opinie.component';
+import { UtworzOpinieComponent } from './components/utworz-opinie/utworz-opinie.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'strona-glowna', pathMatch: 'full' }, 
     { path: 'strona-glowna', component: HomeComponent }, 
+    { path: 'opinie', component: OpinieComponent }, 
+    { path: "opinie/utworz", component: UtworzOpinieComponent},
     { path: 'logowanie', component: LoginComponent},
     { path: 'rejestracja', component: RejestracjaComponent},
     { path: 'przegladaj', component: OfertaComponent},

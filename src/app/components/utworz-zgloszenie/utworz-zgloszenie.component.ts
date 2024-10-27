@@ -5,11 +5,13 @@ import { ZgloszenieService } from '../../services/zgloszenie/zgloszenie.service'
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { ZgloszenieDTO } from '../../dto/ZgloszenieDTO';
 import { AuthService } from '../../services/logowanie/auth.service';
+import { MatOption } from '@angular/material/core';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-utworz-zgloszenie',
   standalone: true,
-  imports: [FormsModule, MatFormField, MatLabel, ReactiveFormsModule],
+  imports: [FormsModule, MatFormField, MatLabel, ReactiveFormsModule, MatOption, NgFor],
   templateUrl: './utworz-zgloszenie.component.html',
   styleUrl: './utworz-zgloszenie.component.css'
 })

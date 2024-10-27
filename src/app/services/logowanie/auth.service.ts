@@ -81,6 +81,21 @@ export class AuthService {
     return null;
   }
 
+  getUserId(): string | null {
+    const token = localStorage.getItem(this.JWT_TOKEN);
+    if (token) {
+      try {
+        const decodedToken: any = jwtDecode(token);
+        const id = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || null;
+        return id; 
+      } catch (error) {
+        console.error('Błąd dekodowania tokena JWT:', error);
+        return null;
+      }
+    }
+    return null;
+  }
+
   private loadUserRole() {
     if (isPlatformBrowser(this.platformId)) {
       const token = this.getJwtToken();
