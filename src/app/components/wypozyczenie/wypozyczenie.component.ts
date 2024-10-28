@@ -34,7 +34,9 @@ import { Uzytkownik } from '../../dto/Uzytkownik';
 export class WypozyczenieComponent implements OnInit {
   user: Uzytkownik | null = null;
   email: string = '';
+  znizka: boolean = false;
   pokazModal: boolean = false;
+  public znizkowyModal: boolean = false;
   wybranyPojazd!: Pojazd;
   id: number = 0;
   photos: string = '';
@@ -86,6 +88,7 @@ export class WypozyczenieComponent implements OnInit {
       next: (data) => {
         this.user = data;
         this.trzezwosc();
+        this.czyZnizka();
       },
       error: (err) => {
         console.error('Błąd podczas ładowania usera:', err);
@@ -99,6 +102,11 @@ export class WypozyczenieComponent implements OnInit {
     }
   }
 
+  czyZnizka(){
+    if (this.user?.znizka){ this.znizka = true}
+    if (this.znizka) {this.znizkowyModal = true;}
+  }
+
   sprawdzTeraz(){
     this.pokazModal = false;
     this.router.navigate(["/alkomat"]);
@@ -107,6 +115,10 @@ export class WypozyczenieComponent implements OnInit {
   zamknijModal(){
     this.pokazModal = false;
     this.router.navigate(["/przegladaj"]);
+  }
+
+  zamknijZnizkowy(){
+    this.znizkowyModal = false;
   }
 
   onNajemTypChange() {
@@ -144,6 +156,10 @@ export class WypozyczenieComponent implements OnInit {
         this.cena = this.dlugoscKrotkoterminowego * this.wybranyPojazd.cenaK + this.kaucjaK;
       }
     }
+    if (this.znizka){
+      const obnizka = this.cena * 0.15;
+      this.cena -= obnizka;
+    }
   }
 
   cofnij(){
@@ -172,6 +188,7 @@ export class WypozyczenieComponent implements OnInit {
         dataZakonczenia: this.dataZakonczenia!,
         uzytkownikEmail: this.authService.getUserEmail()!
       };
+      
     }
 
 

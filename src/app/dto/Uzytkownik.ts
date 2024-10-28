@@ -8,5 +8,7 @@ export interface Uzytkownik {
     rolaId: number;
     czyTrzezwy: boolean;
     czyZablokowany: boolean;
+    czyOpinia: boolean;
+    znizka: boolean;
   }
   

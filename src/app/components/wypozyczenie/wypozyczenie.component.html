@@ -64,13 +64,23 @@
     </div>
 
     <div class="p-6" *ngIf="najemTyp === 'dlugoterminowy' && pokazCene === true">
-      <p class="text-lg"><span class="font-semibold">Długość:</span> {{ dlugoscDlugoterminowego }} dni</p>
-      <p class="text-lg"><span class="font-semibold">Cena:</span> {{ cena }} zł</p>
+      <p class="text-lg">
+        <span class="font-semibold">Długość:</span> {{ dlugoscDlugoterminowego }} dni
+      </p>
+      <p class="text-lg">
+        <span class="font-semibold">Cena:</span> {{ cena }} zł 
+        <span *ngIf="znizka" class="text-green-600 ml-2">-15%</span>
+      </p>
     </div>
-
+    
     <div class="p-6" *ngIf="najemTyp === 'krotkoterminowy' && pokazCene === true">
-      <p class="text-lg"><span class="font-semibold">Długość:</span> {{ dlugoscKrotkoterminowego }} godzin</p>
-      <p class="text-lg"><span class="font-semibold">Cena:</span> {{ cena }} zł</p>
+      <p class="text-lg">
+        <span class="font-semibold">Długość:</span> {{ dlugoscKrotkoterminowego }} godzin
+      </p>
+      <p class="text-lg">
+        <span class="font-semibold">Cena:</span> {{ cena }} zł 
+        <span *ngIf="znizka" class="text-green-600 ml-2">-15%</span>
+      </p>
     </div>
 
     <div class="buttons">
@@ -116,6 +126,38 @@
   </div>
 </div>
 
+<div *ngIf="znizkowyModal" class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">​</span>
+
+    <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+      <div class="sm:flex sm:items-start">
+        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+          <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3l-4 4m0 0l-4 4m8-8h3a2 2 0 012 2v4a2 2 0 01-2 2h-3m-4-4h-4v4m0 0v4a2 2 0 002 2h4m-4-4h4v4" />
+          </svg>
+        </div>
+        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+          <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+            Dziękujemy za Twoją opinię!
+          </h3>
+          <div class="mt-2">
+            <p class="text-sm text-gray-500">
+              Otrzymałeś zniżkę w wysokości <span class="font-bold">15%</span> na swoje zamówienie!
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-5 sm:mt-4 sm:flex sm:justify-between">
+        <button type="button" (click)="zamknijZnizkowy()" class=" ml-auto w-full sm:w-auto inline-flex justify-end rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:text-sm">
+          Dziękuję!
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
   
   
