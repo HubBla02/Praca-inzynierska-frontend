@@ -1,0 +1,42 @@
+<div id="raport" class="content-wrapper">
+    <h2 class="text-center text-2xl font-bold mb-6">Raport wypożyczeń: {{ getNazwaMiesiaca() || '' }} {{ wybranyRok || '' }}</h2>
+    
+    <div class="relative overflow-x-auto flex justify-center">
+        <table class="max-w-800 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="px-6 py-3">ID</th>
+              <th scope="col" class="px-6 py-3">Email wypożyczającego</th>
+              <th scope="col" class="px-6 py-3">Pojazd</th>
+              <th scope="col" class="px-6 py-3">Cena</th>
+              <th scope="col" class="px-6 py-3">Data rozpoczecia</th>
+              <th scope="col" class="px-6 py-3">Data zakonczenia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let w of wypozyczenia" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                {{ w.id }}
+              </th>
+              <td class="px-6 py-4">{{ w.uzytkownikEmail }}</td>
+              <td class="px-6 py-4">{{ w.pojazd.marka + " " + w.pojazd.model }}</td>
+              <td class="px-6 py-4">{{ w.cena }} zł</td>
+              <td class="px-6 py-4">{{ w.dataRozpoczecia | date:'dd-MM-yyyy hh:mm' }}</td>
+              <td class="px-6 py-4">{{ w.dataZakonczenia | date:'dd-MM-yyyy hh:mm' }}</td>
+            </tr>
+            <tr class="bg-gray-100 border-t border-gray-300 dark:bg-gray-700 dark:border-gray-600">
+                <td colspan="6" class="px-6 py-4 font-semibold text-gray-900 dark:text-white text-center">
+                    Całkowity przychód: {{ przychod }} zł
+                </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+  </div>
+  
+  <div class="flex justify-center">
+    <button (click)="PDF()" class="mt-4 px-4 py-2 bg-teal-600 text-white rounded ">
+        Pobierz jako PDF
+      </button>
+  </div>

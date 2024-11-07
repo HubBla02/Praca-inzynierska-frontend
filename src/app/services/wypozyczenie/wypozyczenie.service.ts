@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
 import { Observable, Subject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { WypozyczenieDTO } from '../../dto/WypozyczenieDTO';
 
 @Injectable({
@@ -14,12 +14,17 @@ export class WypozyczenieService {
 
   constructor(private http: HttpClient) { }
 
-  getWypozyczenia(): Observable<any> {
+  getWypozyczenia(filtr: number, miesiac?: number, rok?: number): Observable<any> {
     const token = localStorage.getItem('JWT_TOKEN');
     const headers = {
       'Authorization': `Bearer ${token}`
     };
-    return this.http.get(`${this.apiUrl}/wypozyczenie/lista`, { headers });
+
+    const params = new HttpParams()
+    .set('miesiac', miesiac ? miesiac.toString() : '')
+    .set('rok', rok ? rok.toString() : '');
+  
+    return this.http.get(`${this.apiUrl}/wypozyczenie/lista/${filtr}`, { headers, params});
   }
 
   deleteWypozyczenie(id: number): Observable<any> {
@@ -28,6 +33,14 @@ export class WypozyczenieService {
       'Authorization': `Bearer ${token}`
     };
     return this.http.delete(`${this.apiUrl}/wypozyczenie/${id}`, { headers });
+  }
+
+  zakonczWypozyczenie(id: number): Observable<any> {
+    const token = localStorage.getItem('JWT_TOKEN');
+    const headers = {
+      'Authorization': `Bearer ${token}`
+    };
+    return this.http.patch(`${this.apiUrl}/wypozyczenie/${id}`, {}, { headers });
   }
 
   getMojeWypozyczenia(): Observable<any> {

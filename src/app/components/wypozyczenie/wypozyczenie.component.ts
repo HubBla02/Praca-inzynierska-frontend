@@ -175,7 +175,8 @@ export class WypozyczenieComponent implements OnInit {
         cena: this.cena,
         dataRozpoczecia: this.range.value.start!,
         dataZakonczenia: this.range.value.end!,
-        uzytkownikEmail: this.authService.getUserEmail()!
+        uzytkownikEmail: this.authService.getUserEmail()!,
+        czyZakonczone: false
         };
       }
 
@@ -186,7 +187,8 @@ export class WypozyczenieComponent implements OnInit {
         cena: this.cena,
         dataRozpoczecia: this.dataRozpoczecia!,
         dataZakonczenia: this.dataZakonczenia!,
-        uzytkownikEmail: this.authService.getUserEmail()!
+        uzytkownikEmail: this.authService.getUserEmail()!,
+        czyZakonczone: false
       };
       
     }

@@ -78,6 +78,7 @@ export class AlkomatComponent implements OnInit{
         (user) => {
           this.userBlock = user;
             this.userBlock!.czyZablokowany = true;
+            this.userBlock!.czyTrzezwy = false;
             this.userService.updateUser(this.userBlock!.id, this.userBlock!).subscribe(
               (error) => {
                 console.error("Error while completing edition.")

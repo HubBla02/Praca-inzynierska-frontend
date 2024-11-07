@@ -7,5 +7,6 @@ export interface Wypozyczenie {
     pojazd: Pojazd,
     cena: number,
     dataRozpoczecia: Date,
-    dataZakonczenia: Date
+    dataZakonczenia: Date,
+    czyZakonczone: boolean
 }

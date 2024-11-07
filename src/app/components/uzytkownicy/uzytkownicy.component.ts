@@ -90,6 +90,7 @@ export class UzytkownicyComponent {
           }
           else {
             this.userblock.czyZablokowany = true;
+            this.userblock.czyTrzezwy = false;
           }
           this.userService.updateUser(userId, this.userblock).subscribe(
             () => {

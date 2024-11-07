@@ -19,6 +19,7 @@ import { UtworzZgloszenieComponent } from './components/utworz-zgloszenie/utworz
 import { AlkomatComponent } from './components/alkomat/alkomat.component';
 import { OpinieComponent } from './components/opinie/opinie.component';
 import { UtworzOpinieComponent } from './components/utworz-opinie/utworz-opinie.component';
+import { RaportComponent } from './components/raport/raport.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'strona-glowna', pathMatch: 'full' }, 
@@ -36,6 +37,7 @@ export const routes: Routes = [
     { path: 'uzytkownik/lista', component: UzytkownicyComponent, canActivate: [RoleGuard], data: { expectedRole: 'Admin' }}, 
     { path: 'pojazd/lista', component: PojazdyComponent, canActivate: [RoleGuard], data: { expectedRole: 'Admin' } },
     { path: 'wypozyczenie/lista', component: ListaWypozyczenComponent, canActivate: [RoleGuard], data: { expectedRole: 'Admin' } },
+    { path: 'wypozyczenie/lista/raport', component: RaportComponent, canActivate: [RoleGuard], data: { expectedRole: 'Admin' } },
     { path: 'pojazd/dodaj', component: DodajPojazdComponent, canActivate: [RoleGuard], data: { expectedRole: 'Admin' } },
     { path: 'pojazd/:id/edytuj', component: EdytujPojazdComponent, canActivate: [RoleGuard], data: { expectedRole: 'Admin' } },
     { path: 'dodaj-zdjecie/:id', component: DodajZdjecieComponent, canActivate: [RoleGuard], data: {expectedRole: 'Admin'} },

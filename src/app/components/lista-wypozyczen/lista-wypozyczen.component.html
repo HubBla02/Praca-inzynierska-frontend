@@ -1,5 +1,43 @@
 <div class="content-wrapper">
     <h2 class="text-center text-2xl font-bold mb-6">Wypożyczenia</h2>
+
+    <div class="ml-1 min-w-full justify-center flex">
+      <mat-form-field appearance="fill">
+        <mat-label>Status</mat-label>
+        <mat-select [(value)]="wybranyFiltr" (selectionChange)="zmianaFiltra()">
+          <mat-option *ngFor="let filtr of filtryZakonczenia" [value]="filtr.value">
+            {{ filtr.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="ml-2">
+        <mat-label>Miesiac</mat-label>
+        <mat-select [(value)]="wybranyMiesiac" (selectionChange)="zmianaFiltra()">
+          <mat-option *ngFor="let miesiac of miesiace" [value]="miesiac.value">
+            {{ miesiac.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <form class="ml-2">
+        <mat-form-field class="example-full-width">
+          <mat-label>Rok</mat-label>
+          <input type="number"
+                 placeholder="Wpisz rok"
+                 aria-label="Rok"
+                 matInput
+                 [formControl]="kontrolka">
+        </mat-form-field>
+      </form>
+
+      <button *ngIf="wybranyFiltr === 2" class="green"
+        mat-stroked-button 
+        (click)="doRaportu()"
+        class="mt-4 ml-2">
+        Raport
+      </button>
+    </div>
   
     <div class="overflow-x-auto">
       <table class="content-table min-w-full bg-white text-center border border-gray-300 mx-5">
@@ -9,6 +47,7 @@
             <th class="px-4 py-2 border border-gray-300">Email</th>
             <th class="px-4 py-2 border border-gray-300">Id pojazdu</th>
             <th class="px-4 py-2 border border-gray-300">Cena</th>
+            <th class="px-4 py-2 border border-gray-300">Zakończone</th>
             <th class="px-4 py-2 border border-gray-300">Data rozpoczecia</th>
             <th class="px-4 py-2 border border-gray-300">Data zakonczenia</th>
             <th class="px-4 py-2 border border-gray-300">Akcje</th>
@@ -20,10 +59,15 @@
             <td class="px-4 py-2 border border-gray-300">{{ w.uzytkownikEmail }}</td>
             <td class="px-4 py-2 border border-gray-300">{{ w.pojazdId }}</td>
             <td class="px-4 py-2 border border-gray-300">{{ w.cena }}</td>
+            <td class="px-4 py-2 border border-gray-300">
+              <span *ngIf="w.czyZakonczone" >Tak</span>
+              <span *ngIf="!w.czyZakonczone" >Nie</span>
+            </td>
             <td class="px-4 py-2 border border-gray-300">{{ w.dataRozpoczecia | date:'dd-MM-yyyy  hh:mm'}}</td>
             <td class="px-4 py-2 border border-gray-300">{{ w.dataZakonczenia | date:'dd-MM-yyyy  hh:mm'}}</td>
             <td class="px-4 py-2 border border-gray-300">
-              <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700" (click)="openDeleteModal(w.id)">Zakończ wcześniej</button>
+              <button *ngIf="!w.czyZakonczone" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-red-700" (click)="openEndModal(w.id)">Zakończ wcześniej</button>
+              <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 ml-1" (click)="openDeleteModal(w.id)">Usuń</button>
             </td>
           </tr>
         </tbody>
@@ -32,10 +76,20 @@
   
     <div *ngIf="showDeleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
       <div class="bg-white p-6 rounded shadow-lg">
-        <h3 class="text-lg font-bold mb-4">Czy na pewno chcesz zakończyć wypożyczenie? Tej operacji nie można cofnąć.</h3>
+        <h3 class="text-lg font-bold mb-4">Czy na pewno chcesz usunąć wypożyczenie? Tej operacji nie można cofnąć.</h3>
         <div class="flex justify-end">
           <button class="bg-gray-400 text-white px-4 py-2 rounded mr-2" (click)="closeDeleteModal()">Anuluj</button>
-          <button class="bg-red-600 text-white px-4 py-2 rounded" (click)="confirmDelete()">Zakończ</button>
+          <button class="bg-red-600 text-white px-4 py-2 rounded" (click)="confirmDelete()">Usuń</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="showEndModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+      <div class="bg-white p-6 rounded shadow-lg">
+        <h3 class="text-lg font-bold mb-4">Czy na pewno chcesz zakończyć to wypożyczenie? Tej operacji nie można cofnąć.</h3>
+        <div class="flex justify-end">
+          <button class="bg-gray-400 text-white px-4 py-2 rounded mr-2" (click)="closeEndModal()">Anuluj</button>
+          <button class="bg-red-600 text-white px-4 py-2 rounded" (click)="confirmEnd()">Zakończ</button>
         </div>
       </div>
     </div>
