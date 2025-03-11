@@ -27,7 +27,7 @@ Aplikacja frontendowa dla systemu zarządzania wynajmem pojazdów, umożliwiają
 
 ### 2️⃣ Klonowanie repozytorium
 ```sh
-git clone https://github.com/twoje-repo/frontend.git
+git clone https://github.com/HubBla02/Praca-inzynierska-frontend.git
 cd frontend
 ```
 
